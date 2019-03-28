@@ -2,32 +2,74 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerLoop : MonoBehaviour {
+public class PlayerLoop : MonoBehaviour
+{
 
-	[SerializeField] GameObject sword;
-	[SerializeField] float attackAngle;
+    GameObject sword;
+    [SerializeField] float attackAngle;
 
-	private float distance;
+    [SerializeField] float attackSpeed;
+    [SerializeField] float stanceSpeed;
+    [SerializeField] float parryWindow;
+    [SerializeField] Transform guardPosition;
+    [SerializeField] Transform attackPosition;
+    public bool parry, guard;
 
-	void Start () 
-	{
-		sword = transform.Find("Sword").gameObject;	
-	}
-	
-	// Update is called once per frame
-	void Update () 
-	{
-		Attack();
-	}
+    float parryTimer;
 
-	void Attack()
-	{
-		distance = Mathf.Abs(attackAngle - sword.transform.rotation.z);
-		Debug.Log(distance);
-		if (distance > 0.1f)
-			{
-				
-				sword.transform.RotateAround(sword.transform.position, sword.transform.forward, Mathf.LerpAngle(sword.transform.rotation.z, attackAngle, 0.001f));
-			}
-	}
+
+    Quaternion swordStartRotation;
+    float lerpAngle;
+
+    void Start()
+    {
+        sword = transform.Find("Sword").gameObject;
+    }
+
+    void Update()
+    {
+        if (!Input.GetKey(KeyCode.Mouse0) && parry == false && guard == false)
+            Attack();
+
+        if (Input.GetKey(KeyCode.Mouse0))
+			guard = true;
+            Guard();
+		
+		if(Input.GetKeyUp(KeyCode.Mouse0))
+			guard = false;
+
+        if (Input.GetKeyDown(KeyCode.Mouse0))
+        {
+            parry = true;
+            parryTimer = 0;
+        }
+
+        if (parry == true)
+            Parry();
+
+		
+
+
+    }
+
+    void Attack()
+    {
+        sword.transform.localEulerAngles = new Vector3(20, 90, Mathf.PingPong(Time.time * attackSpeed, attackAngle));
+        //DPS
+    }
+
+    void Guard()
+    {
+        sword.transform.rotation = Quaternion.Lerp(sword.transform.rotation, guardPosition.rotation, Time.deltaTime * stanceSpeed);
+    }
+
+    void Parry()
+    {
+        parryTimer += Time.deltaTime;
+        Debug.Log(parryTimer);
+        if (parryTimer > parryWindow)
+        {
+            parry = false;
+        }
+    }
 }

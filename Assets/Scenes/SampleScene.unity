@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.43192142, g: 0.4677347, b: 0.501599, a: 1}
+  m_IndirectSpecularColor: {r: 0.4431127, g: 0.49232537, b: 0.5720274, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -172,13 +172,13 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 170076733}
-  m_LocalRotation: {x: 0.6747798, y: 0.054452915, z: -0.7343047, w: 0.05003878}
+  m_LocalRotation: {x: 0.45308828, y: 0.6541318, z: -0.5992918, w: 0.08758929}
   m_LocalPosition: {x: 0, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 171.518, y: 94.838, z: 0}
+  m_LocalEulerAnglesHint: {x: 120.298996, y: 58.132996, z: -75.20001}
 --- !u!1 &350543531
 GameObject:
   m_ObjectHideFlags: 0
@@ -203,7 +203,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 350543531}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 3.77, z: -0}
+  m_LocalPosition: {x: 0, y: 3.97, z: 0}
   m_LocalScale: {x: 0.5017, y: 4.9273, z: 0.0642346}
   m_Children: []
   m_Father: {fileID: 854230408}
@@ -400,6 +400,34 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 597643145}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &802802528
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 802802529}
+  m_Layer: 0
+  m_Name: GuardPosition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &802802529
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 802802528}
+  m_LocalRotation: {x: -0, y: -0, z: 0.42710754, w: 0.90420085}
+  m_LocalPosition: {x: 0.53, y: 0, z: 0.81}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 915004796}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 50.568}
 --- !u!1 &854230407
 GameObject:
   m_ObjectHideFlags: 0
@@ -423,15 +451,15 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 854230407}
-  m_LocalRotation: {x: -0.12874316, y: -0.7848023, z: -0.1739864, w: 0.5807231}
-  m_LocalPosition: {x: 0.597, y: -0.417, z: 1.337}
+  m_LocalRotation: {x: 0.12278779, y: 0.6963643, z: -0.12278779, w: 0.6963643}
+  m_LocalPosition: {x: 0.53, y: 0, z: 0.81}
   m_LocalScale: {x: 0.2796443, y: 0.37545046, z: 0.17010203}
   m_Children:
   - {fileID: 1052351316}
   - {fileID: 350543532}
   m_Father: {fileID: 915004796}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: -25, y: -107, z: 0}
+  m_LocalEulerAnglesHint: {x: 20, y: 90, z: 0}
 --- !u!23 &854230409
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -503,8 +531,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2264bc575cf7b2a4c8ec840fd3d371d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sword: {fileID: 0}
-  attackAngle: 1
+  attackAngle: 89
+  attackSpeed: 500
+  stanceSpeed: 20
+  parryWindow: 0.5
+  guardPosition: {fileID: 802802529}
+  attackPosition: {fileID: 1311284663}
+  parry: 0
+  guard: 0
 --- !u!23 &915004794
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -560,6 +594,8 @@ Transform:
   - {fileID: 597643146}
   - {fileID: 534669905}
   - {fileID: 854230408}
+  - {fileID: 802802529}
+  - {fileID: 1311284663}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -635,6 +671,34 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1052351315}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1311284662
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1311284663}
+  m_Layer: 0
+  m_Name: AttackPosition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1311284663
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1311284662}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.53, y: 0, z: 0.81}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 915004796}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2118122949
 GameObject:
   m_ObjectHideFlags: 0

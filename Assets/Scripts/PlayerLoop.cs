@@ -7,7 +7,7 @@ public class PlayerLoop : MonoBehaviour
 
     GameObject sword;
     Animator swordAnim;
-    public float parryCD, playerHP, parryCDtimer, damage;
+    public float parryCD, playerHP, parryCDTimer, damage;
     public GameObject currentEnemy;
     public AudioClip parryClip, damageClip;
 
@@ -21,7 +21,7 @@ public class PlayerLoop : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Mouse0) == true && parryCDtimer >= 2)
+        if (Input.GetKeyDown(KeyCode.Mouse0) == true && parryCDTimer >= parryCD)
         {
             Parry();
         }
@@ -35,7 +35,7 @@ public class PlayerLoop : MonoBehaviour
         }
 
 
-        parryCDtimer += Time.deltaTime;
+        parryCDTimer += Time.deltaTime;
     }
 
     void Attack()
@@ -47,7 +47,7 @@ public class PlayerLoop : MonoBehaviour
 
     void Parry()
     {
-        parryCDtimer = parryCD;
+        parryCDTimer = 0;
         swordAnim.Play("Parry");
     }
 }

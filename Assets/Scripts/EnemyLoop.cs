@@ -9,17 +9,19 @@ public class EnemyLoop : MonoBehaviour {
 	float attackCD;
 	public float enemyAgro;
 	public float enemyHP= 100;
+	public float randomizer;
 
 	void Start()
     {
         sword = transform.Find("EnemySword").gameObject;
         swordAnim = sword.GetComponent<Animator>();
 		attackCD = enemyAgro;
-
+		
+		randomizer = Random.Range(-2.0f, 0.0f);
     }
 	void Update () 
 	{
-		if (attackCD <= 0)
+		if (attackCD <= randomizer)
 			Attack();
 		attackCD -= Time.deltaTime;
 	}
@@ -28,6 +30,7 @@ public class EnemyLoop : MonoBehaviour {
 	{
 		swordAnim.Play("EnemyAttack");
 		attackCD = enemyAgro;
+		randomizer = Random.Range(-2.0f, 0.0f);
 	}
 
 	public void Parried()

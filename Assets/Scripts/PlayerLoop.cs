@@ -6,70 +6,45 @@ public class PlayerLoop : MonoBehaviour
 {
 
     GameObject sword;
-    [SerializeField] float attackAngle;
+    Animator swordAnim;
+    public float parryCD, playerHP, parryCDtimer;
+    public GameObject currentEnemy;
 
-    [SerializeField] float attackSpeed;
-    [SerializeField] float stanceSpeed;
-    [SerializeField] float parryWindow;
-    [SerializeField] Transform guardPosition;
-    [SerializeField] Transform attackPosition;
-    public bool parry, guard;
-
-    float parryTimer;
-
-
-    Quaternion swordStartRotation;
-    float lerpAngle;
 
     void Start()
     {
         sword = transform.Find("Sword").gameObject;
+        swordAnim = sword.GetComponent<Animator>();
+
     }
 
     void Update()
     {
-        if (!Input.GetKey(KeyCode.Mouse0) && parry == false && guard == false)
-            Attack();
-
-        if (Input.GetKey(KeyCode.Mouse0))
-			guard = true;
-            Guard();
-		
-		if(Input.GetKeyUp(KeyCode.Mouse0))
-			guard = false;
-
-        if (Input.GetKeyDown(KeyCode.Mouse0))
+        if (Input.GetKeyDown(KeyCode.Mouse0) == true && parryCDtimer >= 2)
         {
-            parry = true;
-            parryTimer = 0;
+            Parry();
         }
 
-        if (parry == true)
-            Parry();
+        if (sword.GetComponent<SwordBool>().parryActive == true &&
+            currentEnemy.transform.Find("EnemySword").GetComponent<EnemySwordBool>().attackActive == true)
+        {
+            Debug.Log("PARRIED");
+            Attack();
+        }
 
-		
 
-
+        parryCDtimer += Time.deltaTime;
     }
 
     void Attack()
     {
-        sword.transform.localEulerAngles = new Vector3(20, 90, Mathf.PingPong(Time.time * attackSpeed, attackAngle));
-        //DPS
-    }
-
-    void Guard()
-    {
-        sword.transform.rotation = Quaternion.Lerp(sword.transform.rotation, guardPosition.rotation, Time.deltaTime * stanceSpeed);
+        swordAnim.Play("Attack");
+        currentEnemy.GetComponent<EnemyLoop>().enemyHP -= 10;
     }
 
     void Parry()
     {
-        parryTimer += Time.deltaTime;
-        Debug.Log(parryTimer);
-        if (parryTimer > parryWindow)
-        {
-            parry = false;
-        }
+        parryCDtimer = parryCD;
+        swordAnim.Play("Parry");
     }
 }

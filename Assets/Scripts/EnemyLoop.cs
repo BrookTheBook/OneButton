@@ -2,39 +2,44 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyLoop : MonoBehaviour {
+public class EnemyLoop : MonoBehaviour
+{
 
-	GameObject sword;
-	Animator swordAnim;
-	float attackCD;
-	public float enemyAgro;
-	public float enemyHP= 100;
-	public float randomizer;
+    GameObject sword;
+    Animator swordAnim;
+    float attackCD;
+    public float enemyAgro, enemyHP = 100, randomizer, firstAttackDelay = 2;
 
-	void Start()
+
+    void Start()
     {
         sword = transform.Find("EnemySword").gameObject;
         swordAnim = sword.GetComponent<Animator>();
-		attackCD = enemyAgro;
-		
-		randomizer = Random.Range(-2.0f, 0.0f);
+        attackCD = enemyAgro;
+
+        randomizer = Random.Range(-2.0f, 0.0f);
     }
-	void Update () 
-	{
-		if (attackCD <= randomizer)
-			Attack();
-		attackCD -= Time.deltaTime;
-	}
+    void Update()
+    {
+        if (attackCD <= randomizer - firstAttackDelay)
+            Attack();
+        attackCD -= Time.deltaTime;
+    }
 
-	void Attack()
-	{
-		swordAnim.Play("EnemyAttack");
-		attackCD = enemyAgro;
-		randomizer = Random.Range(-2.0f, 0.0f);
-	}
+    void Attack()
+    {
+        firstAttackDelay = 0;
+        int coinFlip = Random.Range(0, 2);
+        if (coinFlip == 0)
+            swordAnim.Play("EnemyAttack");
+		else
+			swordAnim.Play("EnemyFeint");
+        attackCD = enemyAgro;
+        randomizer = Random.Range(-2.0f, 0.0f);
+    }
 
-	public void Parried()
-	{
-		swordAnim.Play("EnemyParried");
-	}
+    public void Parried()
+    {
+        swordAnim.Play("EnemyParried");
+    }
 }

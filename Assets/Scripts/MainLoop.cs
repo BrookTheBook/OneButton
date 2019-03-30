@@ -6,11 +6,11 @@ using UnityEngine.SceneManagement;
 
 public class MainLoop : MonoBehaviour 
 {
-	public GameObject player, currentEnemy, enemyPrefab;
+	public GameObject player, currentEnemy, enemyPrefab, sun;
 	public float difficultyFactor;
 	float currentAgro;
 	int score;
-	public Canvas canvas;
+	public Canvas playCanvas, deathCanvas;
 	
 	void Start () 
 	{
@@ -20,6 +20,7 @@ public class MainLoop : MonoBehaviour
 
 	void Update() 
 	{
+		sun.transform.Rotate(0.1f,0.2f,0.3f);
 		UpdateUI();
 
 		if (currentEnemy != null && currentEnemy.GetComponent<EnemyLoop>().enemyHP <= 0)
@@ -33,10 +34,15 @@ public class MainLoop : MonoBehaviour
 
 		if (player.GetComponent<PlayerLoop>().playerHP <= 0)
 		{
-			SceneManager.LoadScene("MainScene");
+			playCanvas.GetComponent<Canvas>().enabled = false;
+			deathCanvas.transform.Find("Score").GetComponent<Text>().text = score.ToString();
+			deathCanvas.GetComponent<Canvas>().enabled = true;
+			if (Input.GetKey(KeyCode.Mouse0))
+				SceneManager.LoadScene("MainScene");
 
 		}
 	}
+	
 	void SpawnEnemy()
 	{
 		GameObject newEnemy = Instantiate(enemyPrefab);
@@ -51,10 +57,10 @@ public class MainLoop : MonoBehaviour
 
 	void UpdateUI()
 	{
-		canvas.transform.Find("Score").GetComponent<Text>().text = score.ToString();
-		canvas.transform.Find("Player HP").GetComponent<Slider>().value = player.GetComponent<PlayerLoop>().playerHP;
-		canvas.transform.Find("Parry CD").GetComponent<Slider>().value = player.GetComponent<PlayerLoop>().parryCDTimer;
-		canvas.transform.Find("Parry CD").GetComponent<Slider>().maxValue = player.GetComponent<PlayerLoop>().parryCD;
+		playCanvas.transform.Find("Score").GetComponent<Text>().text = score.ToString();
+		playCanvas.transform.Find("Player HP").GetComponent<Slider>().value = player.GetComponent<PlayerLoop>().playerHP;
+		playCanvas.transform.Find("Parry CD").GetComponent<Slider>().value = player.GetComponent<PlayerLoop>().parryCDTimer;
+		playCanvas.transform.Find("Parry CD").GetComponent<Slider>().maxValue = player.GetComponent<PlayerLoop>().parryCD;
 		if (currentEnemy != null)
 			currentEnemy.transform.Find("Canvas").transform.Find("Enemy HP").GetComponent<Slider>().value = currentEnemy.GetComponent<EnemyLoop>().enemyHP;
 	}

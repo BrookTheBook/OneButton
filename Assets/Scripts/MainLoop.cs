@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class MainLoop : MonoBehaviour 
 {
-	public GameObject player, currentEnemy;
+	public GameObject player, currentEnemy, enemyPrefab;
 	public Canvas canvas;
 	void Start () 
 	{
@@ -18,13 +19,23 @@ public class MainLoop : MonoBehaviour
 
 		if (currentEnemy != null && currentEnemy.GetComponent<EnemyLoop>().enemyHP <= 0)
 			{
-				Destroy(currentEnemy);
+				currentEnemy.GetComponent<Animator>().Play("EnemyDeath");
+				currentEnemy.transform.Find("EnemySword").GetComponent<Animator>().Play("EnemySwordDeath");
+				Destroy(currentEnemy, 2);
 				SpawnEnemy();
 			}
+
+		if (player.GetComponent<PlayerLoop>().playerHP <= 0)
+		{
+			SceneManager.LoadScene("MainScene");
+
+		}
 	}
 	void SpawnEnemy()
 	{
-
+		GameObject newEnemy = Instantiate(enemyPrefab);
+		currentEnemy = newEnemy;
+		player.GetComponent<PlayerLoop>().currentEnemy = newEnemy;
 	}
 
 	void UpdateUI()

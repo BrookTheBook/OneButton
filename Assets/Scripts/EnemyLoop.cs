@@ -29,4 +29,9 @@ public class EnemyLoop : MonoBehaviour {
 		swordAnim.Play("EnemyAttack");
 		attackCD = enemyAgro;
 	}
+
+	public void Parried()
+	{
+		swordAnim.Play("EnemyParried");
+	}
 }

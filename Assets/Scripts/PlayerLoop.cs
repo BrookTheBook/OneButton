@@ -7,8 +7,9 @@ public class PlayerLoop : MonoBehaviour
 
     GameObject sword;
     Animator swordAnim;
-    public float parryCD, playerHP, parryCDtimer;
+    public float parryCD, playerHP, parryCDtimer, damage;
     public GameObject currentEnemy;
+    public AudioClip parryClip, damageClip;
 
 
     void Start()
@@ -25,10 +26,11 @@ public class PlayerLoop : MonoBehaviour
             Parry();
         }
 
-        if (sword.GetComponent<SwordBool>().parryActive == true &&
+        if (currentEnemy != null && sword.GetComponent<SwordBool>().parryActive == true &&
             currentEnemy.transform.Find("EnemySword").GetComponent<EnemySwordBool>().attackActive == true)
         {
-            Debug.Log("PARRIED");
+            Camera.main.GetComponent<AudioSource>().PlayOneShot(parryClip);
+            currentEnemy.GetComponent<EnemyLoop>().Parried();
             Attack();
         }
 
@@ -39,7 +41,8 @@ public class PlayerLoop : MonoBehaviour
     void Attack()
     {
         swordAnim.Play("Attack");
-        currentEnemy.GetComponent<EnemyLoop>().enemyHP -= 10;
+        Camera.main.GetComponent<AudioSource>().PlayOneShot(damageClip);
+        currentEnemy.GetComponent<EnemyLoop>().enemyHP -= damage;
     }
 
     void Parry()
